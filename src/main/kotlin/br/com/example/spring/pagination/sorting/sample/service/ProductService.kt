@@ -46,15 +46,15 @@ class ProductService(
         return convertToDto(product)
     }
 
-    fun getProducts(name: String?, sortBy: String?, page: Int, size: Int): Page<ProductResponse> {
+    fun getProducts(searchTerm: String?, sortBy: String?, page: Int, size: Int): Page<ProductResponse> {
         val pageRequest = sortBy?.let {
             PageRequest.of(page, size, Sort.by(sortBy))
         } ?: run {
             PageRequest.of(page, size)
         }
 
-        return name?.let { nameNotNull ->
-            repository.findByNameLikeIgnoreCase(nameNotNull, pageRequest).map { convertToDto(it) }
+        return searchTerm?.let { searchTermNotNull ->
+            repository.findByNameLikeIgnoreCase(searchTermNotNull, pageRequest).map { convertToDto(it) }
         } ?: run {
             repository.findAll(pageRequest).map { convertToDto(it) }
         }

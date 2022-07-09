@@ -17,14 +17,14 @@ import java.math.BigInteger
 import javax.validation.constraints.Min
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/products")
 class ProductController(
     private val productService: ProductService
 ) {
 
     private val log = KotlinLogging.logger {}
 
-    @PostMapping("/products")
+    @PostMapping
     private fun createProduct(@RequestBody productRequest: ProductRequest): ProductResponse {
         log.info("createProduct: creating product=${productRequest.name}")
         return productService.createProduct(productRequest).also {
@@ -32,7 +32,7 @@ class ProductController(
         }
     }
 
-    @PutMapping("/products/{id}")
+    @PutMapping("/{id}")
     private fun updateProduct(
         @PathVariable @Min(1) id: BigInteger,
         @RequestBody productRequest: ProductRequest
@@ -43,7 +43,7 @@ class ProductController(
         }
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/{id}")
     private fun getProduct(@PathVariable @Min(1) id: BigInteger): ProductResponse {
         log.info("getProduct: getting productId=$id")
         return productService.getProduct(id).also {
@@ -51,15 +51,15 @@ class ProductController(
         }
     }
 
-    @GetMapping("/page/products")
+    @GetMapping
     private fun getProducts(
-        @RequestParam(required = false) name: String,
+        @RequestParam(required = false) searchTerm: String,
         @RequestParam(required = false) sortBy: String,
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "3") size: Int
     ): Page<ProductResponse> {
         log.info("getProducts: getting list of products")
-        return productService.getProducts(name, sortBy, page, size).also {
+        return productService.getProducts(searchTerm, sortBy, page, size).also {
             log.info("getProducts: finished getting list of products")
         }
     }
