@@ -1,11 +1,13 @@
 package br.com.example.spring.pagination.sorting.sample.controller
 
+import br.com.example.spring.pagination.sorting.sample.model.request.ProductPriceUpdateRequest
 import br.com.example.spring.pagination.sorting.sample.model.request.ProductRequest
 import br.com.example.spring.pagination.sorting.sample.model.response.ProductResponse
 import br.com.example.spring.pagination.sorting.sample.service.ProductService
 import mu.KotlinLogging
 import org.springframework.data.domain.Page
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -40,6 +42,17 @@ class ProductController(
         log.info("updateProduct: updating product=${productRequest.name}")
         return productService.updateProduct(id, productRequest).also {
             log.info("updateProduct: finished updating product=${productRequest.name}")
+        }
+    }
+
+    @PatchMapping("/{id}")
+    private fun updateProductPrice(
+        @PathVariable @Min(1) id: BigInteger,
+        @RequestBody productPriceUpdateRequest: ProductPriceUpdateRequest
+    ) {
+        log.info("updateProductPrice: updating product price=${productPriceUpdateRequest.price}")
+        return productService.updateProductPrice(id, productPriceUpdateRequest).also {
+            log.info("updateProductPrice: finished updating product price=${productPriceUpdateRequest.price}")
         }
     }
 

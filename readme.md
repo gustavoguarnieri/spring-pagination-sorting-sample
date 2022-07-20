@@ -32,7 +32,7 @@ MongoDB
 
    Get product:
    curl --location --request GET 'http://localhost:9080/spring-pagination-sorting/api/v1/products/1'
-   
+
    Update product:
    curl --location --request PUT 'http://localhost:9080/spring-pagination-sorting/api/v1/products/1' \
    --header 'Content-Type: application/json' \
@@ -41,6 +41,13 @@ MongoDB
        "name": "Notebook Dell",
        "description": "Notebook Ultrafino Dell Inspiron i5402-M10S 14 Full HD 11ª Geração Intel Core i5",
        "price": 5250
+   }'
+
+   Update product price:
+   curl --location --request PATCH 'http://localhost:9080/spring-pagination-sorting/api/v1/products/1' \
+   --header 'Content-Type: application/json' \
+   --data-raw '{   
+       "price": 5333
    }'
 
 ```
